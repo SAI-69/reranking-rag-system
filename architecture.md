@@ -1,0 +1,24 @@
+src/
+    api/
+        v1/
+            routes/
+                query.py
+            agents/
+                agents.py
+            schemas/
+                query_schema.py
+            tools/
+                fts_search_tool.py
+                hybrid_search_tool.py
+                vector_search_tool.py
+    ingestion/
+        ingestion.py
+    core/
+        db.py
+    streamlit_ui/
+        ui.py
+    uploaded_pdfs/
+main.py
+pyproject.toml
+README.md
+.env
