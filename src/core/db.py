@@ -1,26 +1,22 @@
 import os
 from dotenv import load_dotenv
 from langchain_postgres import PGVector
-from langchain_google_genai import GoogleGenerativeAIEmbeddings 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-load_dotenv(override=True)
-model = os.getenv("GOOGLE_EMBEDDINGS_MODEL")
-api_key = os.getenv("GOOGLE_API_KEY")
-pg_connection = os.getenv("SQLALCHEMY_DATABASE_URL")
+load_dotenv()
+PG_CONNECTION = os.getenv("PG_CONNECTION_STRING")
 
 def get_embeddings():
     return GoogleGenerativeAIEmbeddings(
-    model=model,
-    api_key=api_key,
-    output_dimensionality=1536
-    ) 
+        model= os.environ.get("GOOGLE_EMBEDDINGS_MODEL"),
+        api_key= os.environ.get("GOOGLE_API_KEY"),
+        output_dimensionality=1536
+    )
 
-def get_vector_store(collection_name: str = "Credit_Rag_System"):
+def get_vector_store(collection_name : str = "reranking_db"):
     return PGVector(
         collection_name=collection_name,
-        connection=pg_connection,
-        embeddings=get_embeddings()
+        connection=PG_CONNECTION,
+        embeddings = get_embeddings(),
+        use_jsonb=True
     )
